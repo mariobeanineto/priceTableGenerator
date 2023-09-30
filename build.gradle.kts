@@ -19,11 +19,13 @@ repositories {
 }
 
 dependencies {
-	implementation("org.springframework.boot:spring-boot-starter-data-jdbc")
+//	implementation("org.springframework.boot:spring-boot-starter-data-jdbc")
 	implementation("org.springframework.boot:spring-boot-starter-web")
 	implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
-	implementation("com.amazonaws:aws-java-sdk-dynamodb:1.12.560")
+//	implementation("com.amazonaws:aws-java-sdk-dynamodb:1.12.560")
+	implementation("com.squareup.retrofit2:retrofit:2.9.0")
+	implementation("com.squareup.retrofit2:converter-jackson:2.9.0")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 }
 
