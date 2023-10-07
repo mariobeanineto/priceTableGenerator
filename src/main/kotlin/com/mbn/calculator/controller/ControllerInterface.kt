@@ -1,11 +1,11 @@
 package com.mbn.calculator.controller
 
-import com.mbn.calculator.business.domain.PriceTable
 import com.mbn.calculator.controller.domain.SimulationRequest
+import com.mbn.calculator.controller.domain.SimulationResponse
 import org.springframework.http.ResponseEntity
 
 interface ControllerInterface {
-    fun createSimulation(simulationRequest: SimulationRequest): ResponseEntity<List<PriceTable>>
+    fun createSimulation(simulationRequest: SimulationRequest): ResponseEntity<SimulationResponse>
 
-    fun getSimulation(id: String): ResponseEntity<PriceTable>
+    fun getSimulation(id: String): ResponseEntity<SimulationResponse>
 }

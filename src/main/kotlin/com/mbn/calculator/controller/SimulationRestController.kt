@@ -1,7 +1,5 @@
 package com.mbn.calculator.controller
 
-import com.mbn.calculator.business.domain.PriceTable
-import com.mbn.calculator.business.service.InstallmentService
 import com.mbn.calculator.business.service.SimulationService
 import com.mbn.calculator.controller.domain.SimulationRequest
 import com.mbn.calculator.controller.domain.SimulationResponse
@@ -20,12 +18,18 @@ class SimulationRestController(
 ) : ControllerInterface {
 
     @PostMapping("/simulation")
-    override fun createSimulation(@RequestBody simulationRequest: SimulationRequest): ResponseEntity<List<PriceTable>> {
-        return ResponseEntity(simulationService.createSimulation(simulationRequest.amount, simulationRequest.installmentNumber), HttpStatus.CREATED)
+    override fun createSimulation(@RequestBody simulationRequest: SimulationRequest): ResponseEntity<SimulationResponse> {
+        val simulation = simulationService.createSimulation(simulationRequest.amount,
+                simulationRequest.installmentNumber,
+                simulationRequest.documentNumber,
+                simulationRequest.name
+        )
+        val response = SimulationResponse.from(simulation)
+        return ResponseEntity(response, HttpStatus.CREATED)
     }
 
     @GetMapping("/simulation/{id}")
-    override fun getSimulation(id: String): ResponseEntity<PriceTable> {
+    override fun getSimulation(id: String): ResponseEntity<SimulationResponse> {
         TODO("Not yet implemented")
     }
 }

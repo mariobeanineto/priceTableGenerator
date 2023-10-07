@@ -8,6 +8,6 @@ data class Simulation(
         val installmentNumber: Int,
         val interestRate: BigDecimal,
         val client: Client,
-        val priceTable: PriceTable,
+        val priceTableList: List<PriceTable>,
         val timestamp: LocalDateTime = LocalDateTime.now()
 )
