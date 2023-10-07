@@ -2,7 +2,7 @@ package com.mbn.calculator.business.service
 
 import com.mbn.calculator.business.domain.Client
 import com.mbn.calculator.business.domain.Simulation
-import com.mbn.calculator.repository.SimulationRepositoryFactory
+import com.mbn.calculator.repository.SimulationRepoFactory
 import org.springframework.stereotype.Service
 import java.math.BigDecimal
 import java.math.RoundingMode
@@ -12,7 +12,7 @@ import java.util.*
 class SimulationService(
         val rateService: RateService,
         val priceTableService: PriceTableService,
-        val simulationRepositoryInterface: SimulationRepositoryFactory
+        val simulationRepoFactory: SimulationRepoFactory
 ) {
     fun createSimulation(presentValueAmount: BigDecimal, installments: Int, documentNumber: String, name: String): Simulation {
         val client = Client(documentNumber = documentNumber, name = name)
@@ -27,7 +27,7 @@ class SimulationService(
                 client = client,
                 priceTableList = priceTableList
         )
-        simulationRepositoryInterface.saveSimulation(simulation)
+        simulationRepoFactory.saveSimulation(simulation)
         return simulation
     }
 

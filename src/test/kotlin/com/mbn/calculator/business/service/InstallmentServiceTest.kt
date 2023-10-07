@@ -21,7 +21,7 @@ class InstallmentServiceTest {
 
     @Test
     fun `when given an present value amount should return the amount of the installments`() {
-        Assertions.assertEquals(installmentService.getInstallmentAmount(BigDecimal(30000), 12, BigDecimal(1.5)).setScale(2, RoundingMode.HALF_EVEN),
+        Assertions.assertEquals(installmentService.getInstallmentAmount(BigDecimal(30000), 12, BigDecimal(0.015)).setScale(2, RoundingMode.HALF_EVEN),
                 BigDecimal(2750.40).setScale(2, RoundingMode.HALF_EVEN))
     }
 }

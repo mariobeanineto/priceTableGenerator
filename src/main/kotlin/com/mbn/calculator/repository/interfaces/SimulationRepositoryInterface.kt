@@ -1,4 +1,4 @@
-package com.mbn.calculator.repository
+package com.mbn.calculator.repository.interfaces
 
 import com.mbn.calculator.business.domain.Simulation
 
