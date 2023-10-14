@@ -1,12 +1,10 @@
 package com.mbn.calculator.repository
 
-import com.mbn.calculator.business.domain.Simulation
-import com.mbn.calculator.repository.domain.mysql.ClientMySql
-import com.mbn.calculator.repository.domain.mysql.InstallmentMySql
-import com.mbn.calculator.repository.domain.mysql.SimulationMySql
-import com.mbn.calculator.repository.interfaces.ClientMySqlRepositoryInterface
-import com.mbn.calculator.repository.interfaces.InstallmentMySqlRepositoryInterface
-import com.mbn.calculator.repository.interfaces.SimulationMySqlRepositoryInterface
+import com.mbn.calculator.domain.service.Simulation
+import com.mbn.calculator.domain.repository.ClientMySql
+import com.mbn.calculator.domain.repository.InstallmentMySql
+import com.mbn.calculator.domain.repository.SimulationMySql
+import com.mbn.calculator.interfaces.ClientMySqlRepositoryInterface
 import org.springframework.stereotype.Repository
 
 @Repository
@@ -15,7 +13,7 @@ class SimulationMySqlRepository(
         val clientMySqlRepositoryInterface: ClientMySqlRepositoryInterface,
         val installmentMySqlRepositoryInterface: InstallmentMySqlRepositoryInterface
 ) {
-    fun saveSimulation(simulation: Simulation) {
+    suspend fun saveSimulation(simulation: Simulation) {
         val clientMySql = clientMySqlRepositoryInterface.save(ClientMySql.from(simulation.client))
         val simulationMySql = SimulationMySql.from(simulation)
         simulationMySql.clientMySql = clientMySql

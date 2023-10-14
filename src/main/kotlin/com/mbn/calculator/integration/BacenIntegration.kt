@@ -1,6 +1,6 @@
 package com.mbn.calculator.integration
 
-import com.mbn.calculator.integration.domain.SelicResponse
+import com.mbn.calculator.domain.integration.SelicResponse
 import retrofit2.Call
 import retrofit2.http.GET
 
