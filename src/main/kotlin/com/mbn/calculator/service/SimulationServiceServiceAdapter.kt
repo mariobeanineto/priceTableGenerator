@@ -4,6 +4,7 @@ import com.mbn.calculator.domain.service.Client
 import com.mbn.calculator.domain.service.PriceTable
 import com.mbn.calculator.domain.service.Simulation
 import com.mbn.calculator.interfaces.InterestRateInterface
+import com.mbn.calculator.interfaces.MetricsInterface
 import com.mbn.calculator.interfaces.SimulationPersistenceInterface
 import com.mbn.calculator.interfaces.SimulationServiceInterface
 import kotlinx.coroutines.*
@@ -16,7 +17,8 @@ import java.util.*
 class SimulationServiceServiceAdapter(
         val interestRateInterface: InterestRateInterface,
         val priceTableService: PriceTableService,
-        val simulationPersistenceInterface: SimulationPersistenceInterface
+        val simulationPersistenceInterface: SimulationPersistenceInterface,
+        val metricsInterface: MetricsInterface
 ) : SimulationServiceInterface {
     @OptIn(DelicateCoroutinesApi::class, ExperimentalCoroutinesApi::class)
     override fun createSimulation(presentValueAmount: BigDecimal, installmentList: List<Int>, documentNumber: String, name: String): Simulation {
@@ -50,6 +52,7 @@ class SimulationServiceServiceAdapter(
         GlobalScope.launch {
             simulationPersistenceInterface.saveSimulation(simulation)
         }
+        metricsInterface.addSimulation()
         return simulation
     }
 
