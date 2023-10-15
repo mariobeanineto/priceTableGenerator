@@ -8,10 +8,10 @@ import org.springframework.stereotype.Repository
 @Repository
 class SimulationRepositoryAdapter(
         val simulationMongoRepository: SimulationMongoRepository,
-        val simulationMySqlRepository: SimulationMySqlRepository
+        val simulationMySqlComponent: SimulationMySqlComponent
 ): SimulationRepositoryInterface {
     override suspend fun saveSimulation(simulation: Simulation) {
         simulationMongoRepository.save(SimulationMongo.from(simulation))
-        simulationMySqlRepository.saveSimulation(simulation)
+        simulationMySqlComponent.saveSimulation(simulation)
     }
 }
