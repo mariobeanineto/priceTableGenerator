@@ -5,7 +5,6 @@ import com.mbn.calculator.domain.repository.ClientMySql
 import com.mbn.calculator.domain.repository.InstallmentMySql
 import com.mbn.calculator.domain.repository.PriceTableMySql
 import com.mbn.calculator.domain.repository.SimulationMySql
-import com.mbn.calculator.interfaces.ClientMySqlRepositoryInterface
 import com.mbn.calculator.interfaces.SimulationRepositoryInterface
 import org.springframework.stereotype.Repository
 

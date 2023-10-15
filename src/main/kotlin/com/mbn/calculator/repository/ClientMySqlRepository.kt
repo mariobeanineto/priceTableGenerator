@@ -1,4 +1,4 @@
-package com.mbn.calculator.interfaces
+package com.mbn.calculator.repository
 
 import com.mbn.calculator.domain.repository.ClientMySql
 import org.springframework.data.jpa.repository.JpaRepository
