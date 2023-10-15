@@ -7,11 +7,11 @@ import org.springframework.stereotype.Repository
 
 @Repository
 class SimulationRepositoryAdapter(
-        val simulationMongoRepositoryInterface: SimulationMongoRepositoryInterface,
+        val simulationMongoRepository: SimulationMongoRepository,
         val simulationMySqlRepository: SimulationMySqlRepository
 ): SimulationRepositoryInterface {
     override suspend fun saveSimulation(simulation: Simulation) {
-        simulationMongoRepositoryInterface.save(SimulationMongo.from(simulation))
+        simulationMongoRepository.save(SimulationMongo.from(simulation))
         simulationMySqlRepository.saveSimulation(simulation)
     }
 }

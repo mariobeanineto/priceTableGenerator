@@ -28,6 +28,7 @@ dependencies {
 	implementation("com.squareup.retrofit2:retrofit:2.9.0")
 	implementation("com.squareup.retrofit2:converter-jackson:2.9.0")
 	runtimeOnly("mysql:mysql-connector-java:8.0.32")
+	testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.3")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	testImplementation("org.mockito.kotlin:mockito-kotlin:4.0.0")
 	testImplementation("org.junit.jupiter:junit-jupiter:5.7.0")

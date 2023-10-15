@@ -5,7 +5,6 @@ import java.time.LocalDateTime
 
 data class Simulation(
         val id: String,
-        val installmentNumber: Int,
         val interestRate: BigDecimal,
         val client: Client,
         val priceTableList: List<PriceTable>,

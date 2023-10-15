@@ -1,5 +1,6 @@
 package com.mbn.calculator.service
 
+import com.mbn.calculator.domain.service.Installment
 import com.mbn.calculator.domain.service.PriceTable
 import org.springframework.stereotype.Service
 import java.math.BigDecimal
@@ -9,15 +10,15 @@ import java.math.RoundingMode
 class PriceTableService(
         val installmentService: InstallmentService
 ) {
-    fun getPriceTable(presentValueAmount: BigDecimal, installments: Int, interestRate: BigDecimal): List<PriceTable> {
+    suspend fun getPriceTable(presentValueAmount: BigDecimal, installments: Int, interestRate: BigDecimal): PriceTable {
         val installmentAmount = installmentService.getInstallmentAmount(presentValueAmount, installments, interestRate)
-        val priceTableList = mutableListOf<PriceTable>()
+        val installmentList = mutableListOf<Installment>()
         var amountLeft = presentValueAmount
         for (installmentNumber in 1..installments) {
             val interestAmount = getInterestAmount(amountLeft, interestRate)
             val principal = installmentAmount - interestAmount
-            priceTableList.add(
-                    PriceTable(
+            installmentList.add(
+                    Installment(
                             installmentNumber = installmentNumber,
                             amount = installmentAmount,
                             principal = principal,
@@ -26,7 +27,11 @@ class PriceTableService(
             )
             amountLeft -= principal
         }
-        return priceTableList
+
+        return PriceTable(
+                installments = installments,
+                installmentList = installmentList
+        )
     }
 
     private fun getInterestAmount(amount: BigDecimal, interestRate: BigDecimal): BigDecimal {

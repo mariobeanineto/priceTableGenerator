@@ -5,4 +5,4 @@ import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.stereotype.Repository
 
 @Repository
-interface InstallmentMySqlRepositoryInterface: JpaRepository<InstallmentMySql, Long>
+interface InstallmentMySqlRepository: JpaRepository<InstallmentMySql, Long>

@@ -11,5 +11,5 @@ data class SimulationRequest(
         @JsonProperty("amount")
         val amount: BigDecimal,
         @JsonProperty("installmentNumber")
-        val installmentNumber: Int
+        val installmentNumber: List<Int>
 )

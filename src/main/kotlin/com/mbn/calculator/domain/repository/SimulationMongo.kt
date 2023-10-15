@@ -1,6 +1,7 @@
 package com.mbn.calculator.domain.repository
 
 import com.mbn.calculator.domain.service.Client
+import com.mbn.calculator.domain.service.Installment
 import com.mbn.calculator.domain.service.PriceTable
 import com.mbn.calculator.domain.service.Simulation
 import org.springframework.data.annotation.Id
@@ -12,21 +13,55 @@ import java.time.LocalDateTime
 data class SimulationMongo(
         @Id
         val id: String,
-        val installmentNumber: Int,
         val interestRate: BigDecimal,
         val client: Client,
-        val priceTableList: List<PriceTable>,
+        val priceTableList: List<PriceTableMongo>,
         val timestamp: LocalDateTime
 ) {
     companion object {
         fun from(simulation: Simulation): SimulationMongo {
             return SimulationMongo(
                     id = simulation.id,
-                    installmentNumber = simulation.installmentNumber,
                     interestRate = simulation.interestRate,
                     timestamp = simulation.timestamp,
-                    priceTableList = simulation.priceTableList,
+                    priceTableList = simulation.priceTableList.map { PriceTableMongo.from(it) },
                     client = simulation.client
+            )
+        }
+    }
+}
+
+data class PriceTableMongo(
+        val installments: Int,
+        val totalAmount: BigDecimal,
+        val totalInterest: BigDecimal,
+        val installmentList: List<InstallmentMongo>
+) {
+    companion object {
+        fun from(priceTable: PriceTable): PriceTableMongo {
+            return PriceTableMongo(
+                    installments = priceTable.installments,
+                    installmentList = priceTable.installmentList.map { InstallmentMongo.from(it) },
+                    totalAmount = priceTable.totalAmount,
+                    totalInterest = priceTable.totalInterest
+            )
+        }
+    }
+}
+
+data class InstallmentMongo(
+        val installmentNumber: Int,
+        val interest: BigDecimal,
+        val principal: BigDecimal,
+        val amount: BigDecimal
+) {
+    companion object {
+        fun from(installment: Installment): InstallmentMongo {
+            return InstallmentMongo(
+                    installmentNumber = installment.installmentNumber,
+                    interest = installment.interest,
+                    principal = installment.principal,
+                    amount = installment.amount
             )
         }
     }
