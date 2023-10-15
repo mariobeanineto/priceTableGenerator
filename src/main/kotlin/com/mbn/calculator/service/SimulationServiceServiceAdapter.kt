@@ -4,10 +4,9 @@ import com.mbn.calculator.domain.service.Client
 import com.mbn.calculator.domain.service.PriceTable
 import com.mbn.calculator.domain.service.Simulation
 import com.mbn.calculator.interfaces.InterestRateInterface
-import com.mbn.calculator.interfaces.SimulationRepositoryInterface
+import com.mbn.calculator.interfaces.SimulationPersistenceInterface
 import com.mbn.calculator.interfaces.SimulationServiceInterface
 import kotlinx.coroutines.*
-import org.springframework.cglib.proxy.Dispatcher
 import org.springframework.stereotype.Service
 import java.math.BigDecimal
 import java.math.RoundingMode
@@ -17,7 +16,7 @@ import java.util.*
 class SimulationServiceServiceAdapter(
         val interestRateInterface: InterestRateInterface,
         val priceTableService: PriceTableService,
-        val simulationRepositoryInterface: SimulationRepositoryInterface
+        val simulationPersistenceInterface: SimulationPersistenceInterface
 ) : SimulationServiceInterface {
     @OptIn(DelicateCoroutinesApi::class, ExperimentalCoroutinesApi::class)
     override fun createSimulation(presentValueAmount: BigDecimal, installmentList: List<Int>, documentNumber: String, name: String): Simulation {
@@ -49,7 +48,7 @@ class SimulationServiceServiceAdapter(
                 priceTableList = priceTableList
         )
         GlobalScope.launch {
-            simulationRepositoryInterface.saveSimulation(simulation)
+            simulationPersistenceInterface.saveSimulation(simulation)
         }
         return simulation
     }
