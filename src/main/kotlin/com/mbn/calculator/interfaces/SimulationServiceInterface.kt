@@ -1,6 +1,6 @@
 package com.mbn.calculator.interfaces
 
-import com.mbn.calculator.domain.service.Simulation
+import com.mbn.calculator.implementation.concrete.domain.business.Simulation
 import java.math.BigDecimal
 
 interface SimulationServiceInterface {
