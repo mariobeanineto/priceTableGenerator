@@ -8,7 +8,7 @@ import java.math.BigDecimal
 @Profile("mock")
 @Service
 class MockInterestRateAdapter() : InterestRateInterface {
-    override fun getInterestRate(): BigDecimal {
+    override fun getPercentageInterestRate(): BigDecimal {
         return BigDecimal.TEN
     }
 }

@@ -3,29 +3,43 @@ package com.mbn.calculator.implementation.concrete.domain.persistance
 import com.mbn.calculator.implementation.concrete.domain.business.Client
 import com.mbn.calculator.implementation.concrete.domain.business.Installment
 import com.mbn.calculator.implementation.concrete.domain.business.PriceTable
-import com.mbn.calculator.implementation.concrete.domain.business.Simulation
+import com.mbn.calculator.implementation.concrete.domain.business.Sketch
 import org.springframework.data.annotation.Id
 import org.springframework.data.mongodb.core.mapping.Document
 import java.math.BigDecimal
 import java.time.LocalDateTime
 
-@Document("simulations")
-data class SimulationMongo(
+@Document("sketch")
+data class SketchMongo(
         @Id
         val id: String,
         val interestRate: BigDecimal,
-        val client: Client,
+        val client: ClientMongo,
         val priceTableList: List<PriceTableMongo>,
         val timestamp: LocalDateTime
 ) {
     companion object {
-        fun from(simulation: Simulation): SimulationMongo {
-            return SimulationMongo(
-                    id = simulation.id,
-                    interestRate = simulation.interestRate,
-                    timestamp = simulation.timestamp,
-                    priceTableList = simulation.priceTableList.map { PriceTableMongo.from(it) },
-                    client = simulation.client
+        fun from(sketch: Sketch): SketchMongo {
+            return SketchMongo(
+                    id = sketch.id,
+                    interestRate = sketch.interestRate,
+                    timestamp = sketch.timestamp,
+                    priceTableList = sketch.priceTableList.map { PriceTableMongo.from(it) },
+                    client = ClientMongo.from(sketch.client)
+            )
+        }
+    }
+}
+
+data class ClientMongo(
+        val documentNumber: String,
+        val name: String
+) {
+    companion object {
+        fun from(client: Client): ClientMongo {
+            return ClientMongo(
+                    documentNumber = client.documentNumber,
+                    name = client.name
             )
         }
     }

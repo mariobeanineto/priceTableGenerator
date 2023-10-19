@@ -8,7 +8,7 @@ import java.math.BigDecimal
 @Profile("!mock")
 @Service
 class InterestRateAdapter(val bacenIntegration: BacenIntegration) : InterestRateInterface {
-    override fun getInterestRate(): BigDecimal {
+    override fun getPercentageInterestRate(): BigDecimal {
         return BigDecimal(bacenIntegration.getSelicRate().execute().body()?.first()?.value ?: "ZERO")
     }
 }

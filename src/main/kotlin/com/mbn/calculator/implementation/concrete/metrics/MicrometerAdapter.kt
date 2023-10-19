@@ -10,7 +10,8 @@ import org.springframework.stereotype.Service
 class MicrometerAdapter(
         private val meterRegistry: CompositeMeterRegistry
 ) : MetricsInterface {
-    override fun addSimulation() {
-        meterRegistry.counter("simulation.times")
+    override fun addSketch() {
+        val sketchCounter = meterRegistry.counter("sketch.times")
+        sketchCounter.increment()
     }
 }

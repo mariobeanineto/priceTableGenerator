@@ -2,23 +2,23 @@ package com.mbn.calculator.implementation.concrete.domain.request
 
 import com.mbn.calculator.implementation.concrete.domain.business.Installment
 import com.mbn.calculator.implementation.concrete.domain.business.PriceTable
-import com.mbn.calculator.implementation.concrete.domain.business.Simulation
+import com.mbn.calculator.implementation.concrete.domain.business.Sketch
 import java.math.BigDecimal
 import java.time.LocalDateTime
 
-data class SimulationResponse(
+data class SketchResponse(
         val id: String,
         val interestRate: BigDecimal,
         val timestamp: LocalDateTime,
         val priceTableList: List<PriceTableResponse>
 ) {
     companion object {
-        fun from(simulation: Simulation): SimulationResponse {
-            return SimulationResponse(
-                    id = simulation.id,
-                    interestRate = simulation.interestRate,
-                    timestamp = simulation.timestamp,
-                    priceTableList = simulation.priceTableList.map { PriceTableResponse.from(it) }
+        fun from(sketch: Sketch): SketchResponse {
+            return SketchResponse(
+                    id = sketch.id,
+                    interestRate = sketch.interestRate,
+                    timestamp = sketch.timestamp,
+                    priceTableList = sketch.priceTableList.map { PriceTableResponse.from(it) }
             )
         }
     }

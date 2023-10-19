@@ -3,10 +3,11 @@ package com.mbn.calculator.implementation.concrete.domain.persistance
 import com.mbn.calculator.implementation.concrete.domain.business.Client
 import com.mbn.calculator.implementation.concrete.domain.business.Installment
 import com.mbn.calculator.implementation.concrete.domain.business.PriceTable
-import com.mbn.calculator.implementation.concrete.domain.business.Simulation
+import com.mbn.calculator.implementation.concrete.domain.business.Sketch
 import jakarta.persistence.Entity
 import jakarta.persistence.Id
 import jakarta.persistence.ManyToOne
+import jakarta.persistence.OneToMany
 import jakarta.persistence.Table
 import java.math.BigDecimal
 import java.time.LocalDateTime
@@ -32,23 +33,25 @@ class ClientMySql(
 }
 
 @Entity
-@Table(name = "simulation")
-class SimulationMySql(
+@Table(name = "sketch")
+class SketchMySql(
         @Id
         val id: String = "",
         val interestRate: BigDecimal = BigDecimal.ZERO,
         val timestamp: LocalDateTime = LocalDateTime.now(),
         @ManyToOne
-        var clientMySql: ClientMySql = ClientMySql()
+        var clientMySql: ClientMySql = ClientMySql(),
+        @OneToMany(mappedBy="sketch")
+        var priceTableList: List<PriceTableMySql> = emptyList()
 ) {
 
 
     companion object {
-        fun from(simulation: Simulation, clientMySql: ClientMySql): SimulationMySql {
-            return SimulationMySql(
-                    id = simulation.id,
-                    interestRate = simulation.interestRate,
-                    timestamp = simulation.timestamp,
+        fun from(sketch: Sketch, clientMySql: ClientMySql): SketchMySql {
+            return SketchMySql(
+                    id = sketch.id,
+                    interestRate = sketch.interestRate,
+                    timestamp = sketch.timestamp,
                     clientMySql = clientMySql
             )
         }
@@ -62,13 +65,15 @@ class PriceTableMySql(
         val id: String = UUID.randomUUID().toString(),
         val installments: Int = 0,
         @ManyToOne
-        var simulation: SimulationMySql = SimulationMySql()
+        var sketch: SketchMySql = SketchMySql(),
+        @OneToMany(mappedBy="priceTable")
+        var installmentList: List<InstallmentMySql> = emptyList()
 ) {
     companion object {
-        fun from(priceTable: PriceTable, simulationMySql: SimulationMySql): PriceTableMySql {
+        fun from(priceTable: PriceTable, sketchMySql: SketchMySql): PriceTableMySql {
             return PriceTableMySql(
                     installments = priceTable.installments,
-                    simulation = simulationMySql
+                    sketch = sketchMySql
             )
         }
     }

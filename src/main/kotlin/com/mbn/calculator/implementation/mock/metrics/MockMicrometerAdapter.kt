@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service
 @Profile("mock")
 @Service
 class MockMicrometerAdapter : MetricsInterface {
-    override fun addSimulation() {
+    override fun addSketch() {
         print("mocked metrics")
     }
 }

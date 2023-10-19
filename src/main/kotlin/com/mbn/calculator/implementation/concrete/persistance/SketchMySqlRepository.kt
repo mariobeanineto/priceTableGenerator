@@ -1,8 +1,8 @@
 package com.mbn.calculator.implementation.concrete.persistance
 
-import com.mbn.calculator.implementation.concrete.domain.persistance.SimulationMySql
+import com.mbn.calculator.implementation.concrete.domain.persistance.SketchMySql
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.stereotype.Repository
 
 @Repository
-interface SimulationMySqlRepository: JpaRepository<SimulationMySql, Long>
+interface SketchMySqlRepository: JpaRepository<SketchMySql, String>
