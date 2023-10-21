@@ -44,14 +44,13 @@ class SketchAdapter(
         return sketchPersistenceInterface.getSketch(id)
     }
 
-    @OptIn(ExperimentalCoroutinesApi::class)
     private fun createPriceTableList(
             installmentList: List<Int>,
             presentValueAmount: BigDecimal,
             interestRate: BigDecimal
     ): List<PriceTable> {
         val deferredPriceTableList = mutableListOf<Deferred<PriceTable>>()
-        val priceTableList = mutableListOf<PriceTable>()
+        lateinit var priceTableList: List<PriceTable>
         runBlocking {
             withContext(Dispatchers.Default) {
                 installmentList.sorted().forEach { installment ->
@@ -60,10 +59,7 @@ class SketchAdapter(
                     })
                 }
             }
-            deferredPriceTableList.awaitAll()
-            deferredPriceTableList.forEach {
-                priceTableList.add(it.getCompleted())
-            }
+            priceTableList = deferredPriceTableList.awaitAll()
         }
         return priceTableList
     }
