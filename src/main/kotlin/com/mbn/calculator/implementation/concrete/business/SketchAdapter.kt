@@ -41,7 +41,7 @@ class SketchAdapter(
                 interestRate
             )
         )
-        doIOTasks()
+        doIOTasks(sketch)
         return sketch
     }
 
