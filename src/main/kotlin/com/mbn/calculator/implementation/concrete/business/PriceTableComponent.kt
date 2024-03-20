@@ -8,29 +8,30 @@ import java.math.RoundingMode
 
 @Component
 class PriceTableComponent(
-        val installmentComponent: InstallmentComponent
+    val installmentComponent: InstallmentComponent
 ) {
     suspend fun getPriceTable(presentValueAmount: BigDecimal, installments: Int, interestRate: BigDecimal): PriceTable {
-        val installmentAmount = installmentComponent.getInstallmentAmount(presentValueAmount, installments, interestRate)
+        val installmentAmount =
+            installmentComponent.getInstallmentAmount(presentValueAmount, installments, interestRate)
         val installmentList = mutableListOf<Installment>()
         var amountLeft = presentValueAmount
         for (installmentNumber in 1..installments) {
             val interestAmount = getInterestAmount(amountLeft, interestRate)
             val principal = installmentAmount - interestAmount
             installmentList.add(
-                    Installment(
-                            installmentNumber = installmentNumber,
-                            amount = installmentAmount,
-                            principal = principal,
-                            interest = interestAmount
-                    )
+                Installment(
+                    installmentNumber = installmentNumber,
+                    amount = installmentAmount,
+                    principal = principal,
+                    interest = interestAmount
+                )
             )
             amountLeft -= principal
         }
 
         return PriceTable(
-                installments = installments,
-                installmentList = installmentList
+            installments = installments,
+            installmentList = installmentList
         )
     }
 

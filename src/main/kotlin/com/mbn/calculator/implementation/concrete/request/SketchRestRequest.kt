@@ -10,15 +10,16 @@ import org.springframework.web.bind.annotation.*
 @RestController
 @RequestMapping("/price-table/v1")
 class SketchRestRequest(
-        val sketchServiceInterface: SketchServiceInterface
+    val sketchServiceInterface: SketchServiceInterface
 ) {
 
     @PostMapping("/sketch")
     fun createSketch(@RequestBody sketchRequest: SketchRequest): ResponseEntity<SketchResponse> {
-        val sketch = sketchServiceInterface.createSketch(sketchRequest.amount,
-                sketchRequest.installmentNumber,
-                sketchRequest.documentNumber,
-                sketchRequest.name
+        val sketch = sketchServiceInterface.createSketch(
+            sketchRequest.amount,
+            sketchRequest.installmentNumber,
+            sketchRequest.documentNumber,
+            sketchRequest.name
         )
         val response = SketchResponse.from(sketch)
         return ResponseEntity(response, HttpStatus.CREATED)

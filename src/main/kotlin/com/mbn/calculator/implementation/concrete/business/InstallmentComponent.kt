@@ -8,7 +8,8 @@ import java.math.RoundingMode
 class InstallmentComponent {
     fun getInstallmentAmount(presentValueAmount: BigDecimal, installments: Int, interestRate: BigDecimal): BigDecimal {
         val interestPowered = getInterestPowered(interestRate, installments)
-        val factor = getNumerator(interestPowered, interestRate).divide(getDenominator(interestPowered), 6, RoundingMode.HALF_UP)
+        val factor =
+            getNumerator(interestPowered, interestRate).divide(getDenominator(interestPowered), 6, RoundingMode.HALF_UP)
         return presentValueAmount.multiply(factor).setScale(2, RoundingMode.HALF_EVEN)
     }
 

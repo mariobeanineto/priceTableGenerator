@@ -15,8 +15,8 @@ class IntegrationConfiguration {
     val bacenIntegration = getClient().create(BacenIntegration::class.java)
 
     private final fun getClient(): Retrofit =
-            Retrofit.Builder()
-                    .baseUrl("https://api.bcb.gov.br")
-                    .addConverterFactory(JacksonConverterFactory.create())
-                    .build()
+        Retrofit.Builder()
+            .baseUrl("https://api.bcb.gov.br")
+            .addConverterFactory(JacksonConverterFactory.create())
+            .build()
 }

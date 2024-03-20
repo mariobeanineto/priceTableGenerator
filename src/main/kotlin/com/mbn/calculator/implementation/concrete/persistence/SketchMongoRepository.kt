@@ -1,4 +1,4 @@
-package com.mbn.calculator.implementation.concrete.persistance
+package com.mbn.calculator.implementation.concrete.persistence
 
 import com.mbn.calculator.implementation.concrete.domain.persistance.SketchMongo
 import org.springframework.data.repository.CrudRepository

@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service
 @Profile("!mock")
 @Service
 class MicrometerAdapter(
-        private val meterRegistry: CompositeMeterRegistry
+    private val meterRegistry: CompositeMeterRegistry
 ) : MetricsInterface {
     override fun addSketch() {
         val sketchCounter = meterRegistry.counter("sketch.times")

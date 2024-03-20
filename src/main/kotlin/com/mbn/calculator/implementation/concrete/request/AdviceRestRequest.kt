@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler
 
 @ControllerAdvice
-class AdviceRestRequest: ResponseEntityExceptionHandler() {
+class AdviceRestRequest : ResponseEntityExceptionHandler() {
 
     @ExceptionHandler(SketchNotFoundException::class)
     fun sketchNotFoundException(sketchNotFoundException: SketchNotFoundException): ResponseEntity<Any> {

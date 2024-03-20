@@ -15,28 +15,33 @@ import java.util.*
 
 @Service
 class SketchAdapter(
-        val interestRateInterface: InterestRateInterface,
-        val priceTableComponent: PriceTableComponent,
-        val sketchPersistenceInterface: SketchPersistenceInterface,
-        val metricsInterface: MetricsInterface
+    val interestRateInterface: InterestRateInterface,
+    val priceTableComponent: PriceTableComponent,
+    val sketchPersistenceInterface: SketchPersistenceInterface,
+    val metricsInterface: MetricsInterface
 ) : SketchServiceInterface {
-    override fun createSketch(presentValueAmount: BigDecimal, installmentList: List<Int>, documentNumber: String, name: String): Sketch {
+    override fun createSketch(
+        presentValueAmount: BigDecimal,
+        installmentList: List<Int>,
+        documentNumber: String,
+        name: String
+    ): Sketch {
         val client = Client(documentNumber = documentNumber, name = name)
         val id = UUID.randomUUID()
         val percentageInterestRate = getPercentageInterestRate()
         val interestRate = percentageInterestRate.divide(BigDecimal(100), 6, RoundingMode.HALF_EVEN)
 
         val sketch = Sketch(
-                id = id.toString(),
-                interestRate = percentageInterestRate,
-                client = client,
-                priceTableList = createPriceTableList(
-                        installmentList,
-                        presentValueAmount,
-                        interestRate)
+            id = id.toString(),
+            interestRate = percentageInterestRate,
+            client = client,
+            priceTableList = createPriceTableList(
+                installmentList,
+                presentValueAmount,
+                interestRate
+            )
         )
-        saveSketch(sketch)
-        addRequestToMetric()
+        doIOTasks()
         return sketch
     }
 
@@ -45,9 +50,9 @@ class SketchAdapter(
     }
 
     private fun createPriceTableList(
-            installmentList: List<Int>,
-            presentValueAmount: BigDecimal,
-            interestRate: BigDecimal
+        installmentList: List<Int>,
+        presentValueAmount: BigDecimal,
+        interestRate: BigDecimal
     ): List<PriceTable> {
         val deferredPriceTableList = mutableListOf<Deferred<PriceTable>>()
         lateinit var priceTableList: List<PriceTable>
@@ -64,15 +69,25 @@ class SketchAdapter(
         return priceTableList
     }
 
-    @OptIn(DelicateCoroutinesApi::class)
-    private fun saveSketch(sketch: Sketch) {
-        GlobalScope.launch {
-            sketchPersistenceInterface.saveSketch(sketch)
-        }
+    private suspend fun saveSketch(sketch: Sketch) {
+        sketchPersistenceInterface.saveSketch(sketch)
     }
 
     private fun addRequestToMetric() {
         metricsInterface.addSketch()
+    }
+
+    private fun doIOTasks(sketch: Sketch) {
+        runBlocking {
+            withContext(Dispatchers.IO) {
+                launch {
+                    saveSketch(sketch)
+                }
+                launch {
+                    addRequestToMetric()
+                }
+            }
+        }
     }
 
     private fun getPercentageInterestRate() = interestRateInterface.getPercentageInterestRate()
