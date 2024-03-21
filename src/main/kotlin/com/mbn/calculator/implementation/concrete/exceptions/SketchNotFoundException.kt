@@ -9,3 +9,5 @@ open class PersistenceException(message: String) : RuntimeException(message)
 class MongoException(message: String) : PersistenceException(message)
 
 class MySqlException(message: String) : PersistenceException(message)
+
+class CreateSketchException(message: String) : PersistenceException(message)

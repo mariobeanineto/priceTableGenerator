@@ -1,5 +1,6 @@
 package com.mbn.calculator.implementation.concrete.request
 
+import com.mbn.calculator.implementation.concrete.exceptions.CreateSketchException
 import com.mbn.calculator.implementation.concrete.exceptions.SketchNotFoundException
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -13,5 +14,10 @@ class AdviceRestRequest : ResponseEntityExceptionHandler() {
     @ExceptionHandler(SketchNotFoundException::class)
     fun sketchNotFoundException(sketchNotFoundException: SketchNotFoundException): ResponseEntity<Any> {
         return ResponseEntity(sketchNotFoundException.message, HttpStatus.NOT_FOUND)
+    }
+
+    @ExceptionHandler(CreateSketchException::class)
+    fun createSketchException(sketchNotFoundException: SketchNotFoundException): ResponseEntity<Any> {
+        return ResponseEntity(sketchNotFoundException.message, HttpStatus.INTERNAL_SERVER_ERROR)
     }
 }

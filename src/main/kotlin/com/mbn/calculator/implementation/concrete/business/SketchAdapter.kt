@@ -3,6 +3,8 @@ package com.mbn.calculator.implementation.concrete.business
 import com.mbn.calculator.implementation.concrete.domain.business.Client
 import com.mbn.calculator.implementation.concrete.domain.business.PriceTable
 import com.mbn.calculator.implementation.concrete.domain.business.Sketch
+import com.mbn.calculator.implementation.concrete.exceptions.PersistenceException
+import com.mbn.calculator.implementation.concrete.exceptions.SketchNotFoundException
 import com.mbn.calculator.interfaces.InterestRateInterface
 import com.mbn.calculator.interfaces.MetricsInterface
 import com.mbn.calculator.interfaces.SketchPersistenceInterface
@@ -46,7 +48,11 @@ class SketchAdapter(
     }
 
     override fun getSketch(id: String): Sketch {
-        return sketchPersistenceInterface.getSketch(id)
+        try {
+            return sketchPersistenceInterface.getSketch(id)
+        } catch (e: SketchNotFoundException) {
+            throw e
+        }
     }
 
     private fun createPriceTableList(
@@ -70,7 +76,11 @@ class SketchAdapter(
     }
 
     private suspend fun saveSketch(sketch: Sketch) {
-        sketchPersistenceInterface.saveSketch(sketch)
+        try {
+            sketchPersistenceInterface.saveSketch(sketch)
+        } catch (e: PersistenceException) {
+            throw SketchNotFoundException(e.message!!)
+        }
     }
 
     private fun addRequestToMetric() {
