@@ -1,9 +1,8 @@
-package com.mbn.calculator.implementation.concrete.persistence
+package com.mbn.calculator.implementation.concrete.persistence.mongo
 
 import com.mbn.calculator.implementation.concrete.domain.persistance.SketchMongo
 import com.mbn.calculator.implementation.concrete.domain.business.Sketch
 import com.mbn.calculator.implementation.concrete.exceptions.MongoException
-import com.mbn.calculator.implementation.concrete.exceptions.PersistenceException
 import com.mbn.calculator.interfaces.SketchRepositoryInterface
 import org.springframework.context.annotation.Profile
 import org.springframework.stereotype.Repository

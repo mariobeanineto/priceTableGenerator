@@ -70,9 +70,7 @@ class SketchAdapterTest {
         whenever(sketchPersistenceInterface.saveSketch(any())).thenThrow(PersistenceException("Persistence error"))
 
         assertThrows<SketchNotFoundException> {
-            runBlocking {
-                sketchAdapter.createSketch(BigDecimal("1000"), listOf(6, 12, 18), "123456789", "John Doe")
-            }
+            sketchAdapter.createSketch(BigDecimal("1000"), listOf(6, 12, 18), "123456789", "John Doe")
         }
     }
 
