@@ -6,7 +6,6 @@ import com.mbn.calculator.implementation.concrete.exceptions.SketchNotFoundExcep
 import kotlin.jvm.Throws
 
 interface SketchPersistenceInterface {
-
     @Throws(PersistenceException::class)
     suspend fun saveSketch(sketch: Sketch)
 

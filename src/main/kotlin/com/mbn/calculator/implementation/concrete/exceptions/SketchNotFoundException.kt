@@ -11,3 +11,5 @@ class MongoException(message: String) : PersistenceException(message)
 class MySqlException(message: String) : PersistenceException(message)
 
 class CreateSketchException(message: String) : PersistenceException(message)
+
+class InterestException(message: String) : RuntimeException(message)

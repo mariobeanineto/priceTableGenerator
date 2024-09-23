@@ -1,8 +1,13 @@
 package com.mbn.calculator.implementation.concrete.business
 
 import com.mbn.calculator.implementation.concrete.business.InstallmentComponent
+import com.mbn.calculator.implementation.concrete.exceptions.InterestException
+import com.mbn.calculator.implementation.concrete.exceptions.SketchNotFoundException
 import org.junit.jupiter.api.Assertions
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertThrows
 import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.InjectMocks
 import org.mockito.junit.jupiter.MockitoExtension
@@ -17,7 +22,34 @@ class InstallmentComponentTest {
 
     @Test
     fun `when given an present value amount should return the amount of the installments`() {
-        Assertions.assertEquals(installmentComponent.getInstallmentAmount(BigDecimal(30000), 12, BigDecimal(0.015)).setScale(2, RoundingMode.HALF_EVEN),
-                BigDecimal(2750.40).setScale(2, RoundingMode.HALF_EVEN))
+        val presentValue = BigDecimal("1000")
+        val installments = 12
+        val interestRate = BigDecimal("0.05")
+
+        val result = installmentComponent.getInstallmentAmount(presentValue, installments, interestRate)
+
+        assertEquals(BigDecimal("112.82"), result)
+    }
+
+    @Test
+    fun `when given an present value amount and interestRate 0 should throw an InterestException exception`() {
+        val presentValue = BigDecimal("1000")
+        val installments = 10
+        val interestRate = BigDecimal.ZERO
+
+        assertThrows<InterestException> {
+            installmentComponent.getInstallmentAmount(presentValue, installments, interestRate)
+        }
+    }
+
+    @Test
+    fun `when given an present value amount and negative interestRate should throw an InterestException exception`() {
+        val presentValue = BigDecimal("1000")
+        val installments = 10
+        val interestRate = BigDecimal("-5")
+
+        assertThrows<InterestException> {
+            installmentComponent.getInstallmentAmount(presentValue, installments, interestRate)
+        }
     }
 }
