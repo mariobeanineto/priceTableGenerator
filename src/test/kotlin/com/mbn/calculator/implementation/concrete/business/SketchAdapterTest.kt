@@ -8,6 +8,7 @@ import com.mbn.calculator.interfaces.MetricsInterface
 import com.mbn.calculator.interfaces.SketchPersistenceInterface
 import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import org.junit.jupiter.api.extension.ExtendWith
@@ -81,6 +82,21 @@ class SketchAdapterTest {
         assertThrows<SketchNotFoundException> {
             sketchAdapter.getSketch("nonexistent_id")
         }
+    }
+
+    @Test
+    fun `should create sketch with empty installment list`() = runBlocking {
+        // Arrange
+        val presentValueAmount = BigDecimal("1000")
+        val installmentList = emptyList<Int>()
+        val documentNumber = "123456789"
+        val name = "John Doe"
+        whenever(interestRateInterface.getPercentageInterestRate()).thenReturn(BigDecimal("5.0"))
+        whenever(sketchPersistenceInterface.saveSketch(any())).thenAnswer { it.arguments[0] as Sketch }
+
+        val sketch = sketchAdapter.createSketch(presentValueAmount, installmentList, documentNumber, name)
+
+        assertTrue(sketch.priceTableList.isEmpty())
     }
 }
 
