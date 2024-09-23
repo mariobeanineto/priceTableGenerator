@@ -14,11 +14,14 @@ class InterestRateAdapter(val bacenIntegration: BacenIntegration) : InterestRate
     lateinit var defaultInterest: String
 
     override fun getPercentageInterestRate(): BigDecimal {
-        return bacenIntegration.getSelicRate().execute().body()
-            ?.takeIf { it.isNotEmpty() }
-            ?.first()?.value
-            ?.let { BigDecimal(it) }
-            ?.takeIf { it > BigDecimal.ZERO }
-            ?: BigDecimal(defaultInterest)
+        return try {
+            bacenIntegration.getSelicRate().execute().body()
+                ?.first()?.value
+                ?.let { BigDecimal(it) }
+                ?.takeIf { it > BigDecimal.ZERO }
+                ?: BigDecimal(defaultInterest)
+        } catch (e: RuntimeException) {
+            BigDecimal(defaultInterest)
+        }
     }
 }
