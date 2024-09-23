@@ -11,6 +11,7 @@ class PriceTableComponent(
     val installmentComponent: InstallmentComponent
 ) {
     suspend fun getPriceTable(presentValueAmount: BigDecimal, installments: Int, interestRate: BigDecimal): PriceTable {
+        doValidations(installments, presentValueAmount)
         val installmentAmount =
             installmentComponent.getInstallmentAmount(presentValueAmount, installments, interestRate)
         val installmentList = mutableListOf<Installment>()
@@ -33,6 +34,23 @@ class PriceTableComponent(
             installments = installments,
             installmentList = installmentList
         )
+    }
+
+    private fun doValidations(installments: Int, presentValueAmount: BigDecimal) {
+        validatePresentValue(presentValueAmount)
+        validateInstallmentNumber(installments)
+    }
+
+    private fun validatePresentValue(presentValueAmount: BigDecimal) {
+        if (presentValueAmount < BigDecimal.ZERO) {
+            throw IllegalArgumentException("Invalid presentValueAmount")
+        }
+    }
+
+    private fun validateInstallmentNumber(installments: Int) {
+        if (installments <= 0) {
+            throw IllegalArgumentException("Invalid installment number")
+        }
     }
 
     private fun getInterestAmount(amount: BigDecimal, interestRate: BigDecimal): BigDecimal {

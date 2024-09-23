@@ -20,4 +20,9 @@ class AdviceRestRequest : ResponseEntityExceptionHandler() {
     fun createSketchException(sketchNotFoundException: SketchNotFoundException): ResponseEntity<Any> {
         return ResponseEntity(sketchNotFoundException.message, HttpStatus.INTERNAL_SERVER_ERROR)
     }
+
+    @ExceptionHandler(IllegalArgumentException::class)
+    fun createSketchException(illegalArgumentException: IllegalArgumentException): ResponseEntity<Any> {
+        return ResponseEntity(illegalArgumentException.message, HttpStatus.BAD_REQUEST)
+    }
 }
