@@ -69,7 +69,7 @@ class SketchMySqlComponentTest {
 
         val installment1 = Installment(1, BigDecimal("0.05"), BigDecimal("1000"), BigDecimal("1050"))
 
-        val priceTable = PriceTable(3, listOf(installment1))
+        val priceTable = PriceTable(1, listOf(installment1))
 
         return Sketch("123ABC", BigDecimal("0.1"), client, listOf(priceTable))
     }

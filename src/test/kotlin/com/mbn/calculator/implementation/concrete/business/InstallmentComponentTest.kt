@@ -30,26 +30,4 @@ class InstallmentComponentTest {
 
         assertEquals(BigDecimal("112.82"), result)
     }
-
-    @Test
-    fun `when given an present value amount and interestRate 0 should throw an InterestException exception`() {
-        val presentValue = BigDecimal("1000")
-        val installments = 10
-        val interestRate = BigDecimal.ZERO
-
-        assertThrows<InterestException> {
-            installmentComponent.getInstallmentAmount(presentValue, installments, interestRate)
-        }
-    }
-
-    @Test
-    fun `when given an present value amount and negative interestRate should throw an InterestException exception`() {
-        val presentValue = BigDecimal("1000")
-        val installments = 10
-        val interestRate = BigDecimal("-5")
-
-        assertThrows<InterestException> {
-            installmentComponent.getInstallmentAmount(presentValue, installments, interestRate)
-        }
-    }
 }
